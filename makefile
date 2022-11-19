@@ -1,0 +1,14 @@
+.ONESHELL:
+.PHONY:clean
+VPATH = ./lib:./src
+OBJS = lib/add.o lib/sub.o
+CPPS = src/add.c src/sub.c
+$(OBJS):$(CPPS)
+	gcc -c $^ -I include
+	mv add.o sub.o ./lib
+libcal.a:$(OBJS)
+	ar rcs ./lib/$@ $^
+main:main.c libcal.a
+	gcc $< -L lib -l cal -I include -o $@
+clean:
+	rm $(OBJS)
